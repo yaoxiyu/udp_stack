@@ -96,9 +96,10 @@ int main()
                 {
                     int udp_length = ntohs(up->uh.length);
                     up->body[udp_length - 8] = '\0';
-                    printf("udp --> %s", up->body)
+                    printf("udp --> %s", up->body);
                 }
             }
         }
     }
+    return 0;
 }
