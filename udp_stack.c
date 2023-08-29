@@ -8,8 +8,6 @@
 
 #pragma pack(1)
 
-
-
 #define PROTO_IP    0x0800
 #define PROTO_UDP   17
 #define ETH_LENGTH  6
