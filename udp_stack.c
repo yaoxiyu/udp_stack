@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/poll.h>
+#include <arpa/inet.h>
 
 #define NETMAP_WITH_LIBS
 
@@ -10,6 +11,7 @@
 
 #define PROTO_IP    0x0800
 #define PROTO_UDP   17
+
 #define ETH_LENGTH  6
 
 // 以太网协议头
@@ -80,9 +82,10 @@ int main()
         {
             continue;
         }
-        if (pfd.events & POLLIN)
+        if (pfd.revents & POLLIN)
         {
             struct nm_pkthdr h;
+
             unsigned char *stream = nm_nextpkt(nmr, &h);
             struct ethhdr *eh = (struct ethhdr*)stream;
             
@@ -90,11 +93,11 @@ int main()
             if (ntohs(eh->proto) == PROTO_IP)
             {
                 struct udppkt *up = (struct udppkt*)stream;
-                if (ntohs(up->ih.proto) == PROTO_UDP)
+                if (up->ih.proto == PROTO_UDP)
                 {
                     int udp_length = ntohs(up->uh.length);
                     up->body[udp_length - 8] = '\0';
-                    printf("udp --> %s", up->body);
+                    printf("udp --> %s\n", up->body);
                 }
             }
         }
