@@ -48,6 +48,31 @@ struct udphdr
     unsigned short check;           // 校验 2byte
 };
 
+// tcp协议头
+struct tcphdr
+{
+    unsigned short sport;           // 源端口 2byte
+    unsigned short dport;           // 目标端口 2byte
+    unsigned int seqnum;            // seq 4byte
+    unsigned int acknum;            // ack 4byte
+    unsigned char hdrlen:4,         // 协议头长度 4bit
+                  resv:4;           // receive 4bit
+    unsigned char cwr:1,
+                  ece:1,
+                  urg:1,
+                  ack:1,
+                  psh:1,
+                  rst:1,
+                  syn:1,
+                  fin:1;
+    unsigned short wsize;           // 窗口长度 2byte
+    unsigned short check;           // 校验 2byte
+
+    unsigned short urgptr;          // 
+
+    unsigned char option[0];
+};
+
 // udp数据报
 struct udppkt
 {
